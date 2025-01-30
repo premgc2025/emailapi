@@ -9,7 +9,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 
-let PORT = process.env.PORT || 5500
+let PORT = process.env.PORT 
 
 
 const app = express();
@@ -18,6 +18,7 @@ const app = express();
 // Middleware
 app.use(bodyParser.json());
 app.use(cors())
+
 
 // Nodemailer Transporter (using Gmail as an example)
 const transporter = nodemailer.createTransport({
