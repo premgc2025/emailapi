@@ -6,6 +6,7 @@ import nodemailer from 'nodemailer'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import dotenv from 'dotenv'
+import api_password from './helper.js'
 dotenv.config()
 
 
@@ -26,7 +27,7 @@ const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'premgcai@gmail.com',  // Your Gmail
-    pass: 'zfks ojki nbbt zhbo',   // Your Gmail password or app password
+    pass: `${api_password}`,   // Your Gmail password or app password
   },
 });
 
@@ -41,6 +42,54 @@ app.post('/send-email', (req, res) => {
     to: 'prem.gc2009@gmail.com',  // Your Gmail where you want to receive the email
     subject: `Contact from ${name}`,
     text: `Message from ${name} (${email}):\n\n${message}`,
+  };
+
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Failed to send email');
+    } else {
+        console.log("email sent")
+      res.status(200).send({message:'Email sent successfully'});
+    }
+  });
+});
+
+// Endpoint to handle the Prashant Hotel contact form submission
+app.post('/send-phemail', (req, res) => {
+  const { name, email, message } = req.body;
+  console.log("email",name,email,message,req.body)
+ 
+
+  const mailOptions = {
+    from: email,
+    to: 'prem.gc2009@gmail.com',  // Your Gmail where you want to receive the email
+    subject: `Contact from ${name}`,
+    text: `Message from ${name} (${email}):\n\n${message}`,
+  };
+
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Failed to send email');
+    } else {
+        console.log("email sent")
+      res.status(200).send({message:'Email sent successfully'});
+    }
+  });
+});
+
+// Endpoint to handle the Prashnat Hotel Room Booking form submission
+app.post('/send-phroom-booking', (req, res) => {
+  const { name, email, person, children,roomType, roomNumber, checkIn, checkOut } = req.body;
+ 
+ 
+
+  const mailOptions = {
+    from: email,
+    to: 'prem.gc2009@gmail.com',  // Your Gmail where you want to receive the email
+    subject: `Contact from ${name}`,
+    text: `Room Booking from: ${name} (${email}):\n\nNumber of Person: ${person}:\n\nNumber of Children: ${children}:\n\nType of Room: ${roomType}:\n\nNumber of Room ${roomNumber}:\n\nCheckIn Date: ${checkIn}:\n\nCheckOut Date: ${checkOut}`,
   };
 
   transporter.sendMail(mailOptions, (err, info) => {
